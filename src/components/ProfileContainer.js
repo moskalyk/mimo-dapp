@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 import Profile from './profile/Profile.js';
 import Timeline from './timeline/Timeline.js';
 
-import { connect } from 'react-redux';
-
-import { followProfileAction } from '../actions/actions';
-
 class ProfileContainer extends Component {
 
   state = {
@@ -16,18 +12,8 @@ class ProfileContainer extends Component {
   componentDidMount() {
     // Open Profile
     console.log("Load our profile...");
-
-    // TODO: Get History
-    this.setState({
-      name: "Gillz",
-    });
-
-  }
-
-  handleFollow = () => {
-    this.props.handleFollowProfile()
-    console.log('Follow!')
-  }
+    console.log(this.props)
+  } 
 
   render() {
     // Hack until we switch to redux
@@ -48,27 +34,11 @@ class ProfileContainer extends Component {
         {/*Async load history?*/}
 
         {/*Include Navbar*/}
-
-        <Profile name={this.state.name} onFollow={this.handleFollow}></Profile>
+        <Profile ensDomain={this.props.ensDomain} onFollow={this.handleFollow}></Profile>
         <Timeline timeline={timeline} ></Timeline>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return ({
-    handleFollowProfile: () => {
-      dispatch(followProfileAction())
-    }
-  })
-}
-
-
-const ProfileReduxContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
-
-export default ProfileReduxContainer;
+export default ProfileContainer;
