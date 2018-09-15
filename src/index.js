@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
-//TODO: Convert to app container
-import AppContainer from './App';
-import ProfileContainer from './components/ProfileContainer';
+import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 // React Router
@@ -18,8 +16,9 @@ import {
 ReactDOM.render(
 		<Router>
 			<Switch>
-					{/* Our Routes*/}
-				<Route exact path="/" component={AppContainer}/>
+				{/* Our Routes*/}
+				<Route exact path="/" component={App}/>
+				{/*TODO: Set up meme-ified 404 page? */}
 			</Switch>
 		</Router>
 	, document.getElementById('root'));

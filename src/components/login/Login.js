@@ -1,60 +1,78 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 
 class Login extends Component {
 
   state = {
-  	ensDomain: '',
+  	ensDomain: ''
   }
 
   // Handle Change
   handleChange = (event) => {
-    this.setState({ ensDomain: event.target.value });
+    this.setState({ 
+      ensDomain: event.target.value 
+    });
   }
   
   // Handle Logging in
-  handleLoginSubmit = (event) => {
+  handleLoginSubmit = () => {
     // TODO: some conditional logic to check 
     this.login(this.state.ensDomain);
-    event.preventDefault();
   }
 
   login = (ens) => {
     if(this.isValidENS(ens)) {
-    	// get MultiHash from web3
+    	// get MultiHash from web3.ens
     	const multiHash = "Qsdfsdfsdf"
-
     	this.props.onLoginVerified(ens, multiHash);
+
     } else {
-      // Display message
-      console.log('Not an ENS Domain')
+      // TODO: Perform some validation UI here
       alert('Not an ENS Domain')
     }
   }
 
+
   isValidENS = (ens) => {
     console.log("Checking ENS:", ens);
-    console.log(ens.substr(ens.length - 4))
 
-    //TODO: add some web3 logic
-    if(ens.substr(ens.length - 4) == '.eth'){
-      return true;
-    };
+    //TODO: Connect to web3
+    // return await web3.eth.ens.getAddress('ethereum.eth').then((address) => {
+    //   console.log(address);
+    //   return web3.utils.isAddress(address)
+    // })
 
-    return false;
+    return ens.substr(ens.length - 4) === '.eth';
   }
 
 	render() {
 		return (
 			<div>
-				<div>
-					<input className="input is-primary custom-round" type="text" placeholder="Login" value={this.state.ensDomain} onChange={this.handleChange} ></input>
-					<button onClick={this.handleLoginSubmit} className="button is-primary">Login</button>
-				</div>
+        <div className="container login-container">
+            <div className="columns is-centered">
+              <div className="box login-box">
+                <article className="media">
+                  <div className="content has-text-centered is-expanded">
+
+                    {/*TODO: Wrap / remove styling^?*/}
+                    <input className="input is-primary" type="text" placeholder="Input" value={this.state.ensDomain} onChange={this.handleChange}></input>
+                    <br></br>
+                    <br></br>
+                    <button onClick={this.handleLoginSubmit} className="button is-primary mimo-button">Login</button>
+
+                  </div>
+                </article>
+              </div>
+            </div>
+        </div>
 			</div>
 		);
 	}
 }
 
+Login.propTypes = {
+  onLoginVerified: PropTypes.func,
+  web3: PropTypes.object
+};
 
 export default Login;

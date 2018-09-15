@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: 180px;
 }
 
 .App-logo {
@@ -15,20 +16,30 @@
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
-.App-intro {
-  font-size: large;
+.App-sub-title {
+  font-size: 1em;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.login-box {
+
 }
 
+.login-container {
+  margin-top: 100px;
+  margin-bottom: 200px;
+}
 
-.app-footer {
-  /*position: absolute;*/
-  bottom: 10px;
+.profile-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.mimo-button {
+  background: #35F5C9;
+  width: 125px;
+  border-radius: 12px;
+  border: 2px solid #73AD21;
 }

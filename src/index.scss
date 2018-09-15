@@ -12,6 +12,7 @@ $purple-invert: findColorInvert($purple);
 
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+//TODO: Custom Mimo Color
 $addColors: (
   "purple":($purple, $purple-invert),
 );
@@ -22,11 +23,6 @@ $input-shadow: none;
 
 $colors: map-merge($colors, $addColors);
 
-// 3. Add new color variables to the color map.
-@import "bulma/sass/utilities/derived-variables.sass";
+// // 3. Add new color variables to the color map.
+// @import "bulma/sass/utilities/derived-variables.sass";
 
-// body {
-//   margin: 0;
-//   padding: 0;
-//   font-family: sans-serif;
-// }
