@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Search from './search/Search.js';
 import Profile from './profile/Profile.js';
 import ProfileForm from './profile/ProfileForm.js';
 
 class ProfileContainer extends Component {
-  state ={
+
+  state = {
     updating: false,
     bio: null
   }
 
   componentDidMount() {
+    
+    const id = this.props.match.params.ens;
+    console.log(id);
+
     console.log(this.props.canUpdateProfile);
     this.setState({bio: "my bio"});
   }
 
+  async signMsg(from, msg) {
+    const result = await this.props.web3.eth.sign(from, msg);
+    console.log(result);
+    return result;
+  }
+
   handleUpdateClick = () => {
-    console.log('Toggling Update')
+    console.log('Toggling Update');
     this.openBioForm();
   }
 
@@ -24,8 +36,10 @@ class ProfileContainer extends Component {
     this.setState({bio: bio});
   }
 
-  onBioSubmit = (payload) => {
+  async onBioSubmit(payload) {
     console.log(payload);
+    console.log(this.props.account)
+    // await this.signMsg(this.props.account, this.props.web3.utils.sha3("Updating Bio"));
     this.updateBio(payload.bio)
     this.closeBioForm();
   }
@@ -35,17 +49,16 @@ class ProfileContainer extends Component {
   }
 
   openBioForm = () => {
-    this.setState({updating: true })
+    this.setState({ updating: true })
   }
 
   closeBioForm = () => {
-    this.setState({updating: false })
+    this.setState({ updating: false })
   }
 
   render() {
     return (
       <div> 
-
       {
         this.state.updating ? 
         <ProfileForm
@@ -56,13 +69,19 @@ class ProfileContainer extends Component {
         >
         </ProfileForm>
         :
-        <Profile
-          ensDomain={this.props.ensDomain} 
-          canUpdateProfile={this.props.canUpdateProfile}
-          bio={this.state.bio} 
-          photo={this.state.photo} 
-          follower={this.state.followers}>
-        </Profile>
+        <div>
+          <Search 
+            onLoginVerified={this.props.onLoginVerified}
+            web3={this.state.web3}>
+          </Search> 
+          <Profile
+            ensDomain={this.props.ensDomain} 
+            canUpdateProfile={this.props.canUpdateProfile}
+            bio={this.state.bio} 
+            photo={this.state.photo} 
+            >
+          </Profile>
+        </div>
       }
 
       {/*If can Update*/}

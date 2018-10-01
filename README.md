@@ -1,1 +1,3 @@
-1. Run an IPFS node
+TODO
+1. Implement Routing with History
+2. 

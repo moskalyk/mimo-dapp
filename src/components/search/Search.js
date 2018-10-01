@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Login extends Component {
+import { withRouter } from 'react-router-dom'
+
+
+class Search extends Component {
 
   state = {
   	ensDomain: ''
   }
 
   // Handle Change
-  handleChange = (event) => {
+  handleChange = e => {
     this.setState({ 
-      ensDomain: event.target.value 
+      ensDomain: e.target.value 
     });
   }
   
   // Handle Logging in
-  handleLoginSubmit = () => {
+  handleSearchSubmit = () => {
     // TODO: some conditional logic to check 
-    this.login(this.state.ensDomain);
+    this.search(this.state.ensDomain);
   }
 
-  login = (ens) => {
+  search = ens => {
     if(this.isValidENS(ens)) {
     	// get MultiHash from web3.ens
     	const multiHash = "Qsdfsdfsdf"
@@ -32,8 +35,7 @@ class Login extends Component {
     }
   }
 
-
-  isValidENS = (ens) => {
+  isValidENS = ens => {
     console.log("Checking ENS:", ens);
 
     //TODO: Connect to web3
@@ -43,6 +45,7 @@ class Login extends Component {
     // })
 
     return ens.substr(ens.length - 4) === '.eth';
+
   }
 
 	render() {
@@ -58,7 +61,8 @@ class Login extends Component {
                     <input className="input is-primary" type="text" placeholder="Input" value={this.state.ensDomain} onChange={this.handleChange}></input>
                     <br></br>
                     <br></br>
-                    <button onClick={this.handleLoginSubmit} className="button is-primary mimo-button">Login</button>
+
+                    <button onClick={this.handleSearchSubmit} className="button is-primary mimo-button">Search</button>
 
                   </div>
                 </article>
@@ -70,9 +74,9 @@ class Login extends Component {
 	}
 }
 
-Login.propTypes = {
+Search.propTypes = {
   onLoginVerified: PropTypes.func,
   web3: PropTypes.object
 };
 
-export default Login;
+export default Search;

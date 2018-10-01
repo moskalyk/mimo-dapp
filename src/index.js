@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 import App from './App';
+import ProfileContainer from './components/ProfileContainer.js';
 import registerServiceWorker from './registerServiceWorker';
 
 // React Router
@@ -18,9 +19,10 @@ ReactDOM.render(
 			<Switch>
 				{/* Our Routes*/}
 				<Route exact path="/" component={App}/>
-				{/*TODO: Set up meme-ified 404 page? */}
+				<Route exact path="/profile/:ens" component={ ProfileContainer } />
 			</Switch>
 		</Router>
-	, document.getElementById('root'));
+	, document.getElementById('root')
+	);
 
 registerServiceWorker();

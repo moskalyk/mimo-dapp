@@ -5,13 +5,15 @@ import ProfileForm from './ProfileForm';
 
 // TODO: fix mimo error
 // const Mimo = require('ethmimo');
-const IPFS = require('ipfs');
-const ipfs = new IPFS();
+// const IPFS = require('ipfs');
+// const ipfs = new IPFS();
 
 class Profile extends Component {
 
 	state = {
-		mimo: null
+		mimo: null,
+		containsImage: false,
+		bio: null
 	}
 
 	componentDidMount() {
@@ -21,7 +23,7 @@ class Profile extends Component {
 	}
 
 	getHistory = async () => {
-		console.log(this.props.multihash)
+		console.log(this.props.multihash);
 		// Get all data published to a user's DB
 		// await this.state.mimo.getHistory(this.props.ensDomain).then(logs => console.log(logs));
 	}
@@ -39,12 +41,16 @@ class Profile extends Component {
 								<h2><strong>{this.props.ensDomain}</strong></h2>
 
 								<figure className="image is-128x128">
-								  <img className="is-rounded" src={this.props.image}></img>
+								  {/*Check for Image*/}
+								  { 
+								  	this.state.containsImage ? 
+								  	<img className="is-rounded" src={this.state.image}></img> 
+								  	: 
+								  	<img className="is-rounded" src={this.props.image}></img>
+								  }
 								</figure>
 
-								<p><strong>Followers</strong> {this.props.follower} <strong>Following</strong> {this.props.following}</p>
 								<p>Bio: {this.props.bio}</p>
-
 			                  </div>
 			                </article>
 		            	</div>
@@ -57,16 +63,12 @@ class Profile extends Component {
 
 Profile.propTypes = {
   endDomain: PropTypes.string,
-  image: PropTypes.string,
-  follower: PropTypes.number,
-  following: PropTypes.number
+  image: PropTypes.string
 };
 
 //TODO: Remove after Mimo Connection
 Profile.defaultProps = {
   image: "http://content.invisioncic.com/Mnhlcanucks/profile/photo-thumb-60611.jpg",
-  follower: 99,
-  following: 1
 };
 
 export default Profile;

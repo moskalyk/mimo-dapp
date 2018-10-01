@@ -8,16 +8,16 @@ class ProfileForm extends Component {
     count: this.props.bio.length || 0
   };
 
-  handlebioChange = (e) => {
+  handlebioChange = e => {
     this.updateBio(e.target.value);
     this.updateCounter(e.target.value.length);
   };
 
-  updateBio = (newbio) => {
+  updateBio = newbio => {
     this.setState({ bio: newbio });
   }
 
-  updateCounter = (length) => {
+  updateCounter = length => {
     this.setState({ count: length });
   }
 
@@ -30,6 +30,7 @@ class ProfileForm extends Component {
       bio: this.state.bio,
       sig: "0x..."
     });
+
   };
 
   render() {
