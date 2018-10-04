@@ -38,7 +38,6 @@ export function web3LoadedFailed(error) {
 // Action Creators
 export const fetchWeb3 = () => async (dispatch, getState) => {
 
-	console.log('Fetching Web3')
 	dispatch(web3IsLoading(true));
 
 	try{
@@ -51,16 +50,4 @@ export const fetchWeb3 = () => async (dispatch, getState) => {
 	}
 
 	dispatch(web3IsLoading(false));
-
-	// axios.get(url)
-	// .then((response) => {
-	// 	console.log(response)
-	// 	dispatch(itemIsLoading(false));
-
-	// 	if( response.status != 200) throw Error("Errorrrr");
-
-	// 	return response.data;
- //    })
- //    .then((items) => dispatch(itemWasSuccessful(true, items)))
- //    .catch((e) => dispatch(itemHasErrored(true, e)));
 }

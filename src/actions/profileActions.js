@@ -91,7 +91,7 @@ export const fetchProfile = (name) => (dispatch, getState) => {
 
 	const { mimo, account } = getState();
 
-	// Replace 
+	// TODO: Replace with mimo object
 	setTimeout(() => {
 
 		const profile = {
@@ -120,16 +120,4 @@ export const fetchProfile = (name) => (dispatch, getState) => {
 
     }, 1000);
 
-
-	// axios.get(url)
-	// .then((response) => {
-	// 	console.log(response)
-	// 	dispatch(itemIsLoading(false));
-
-	// 	if( response.status != 200) throw Error("Errorrrr");
-
-	// 	return response.data;
- //    })
- //    .then((items) => dispatch(itemWasSuccessful(true, items)))
- //    .catch((e) => dispatch(itemHasErrored(true, e)));
 }
