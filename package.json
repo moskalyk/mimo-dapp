@@ -17,6 +17,8 @@
     "react-scripts": "1.1.5",
     "react-web3": "^0.4.5",
     "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^3.4.6",
     "web3": "^1.0.0-beta.36"
   },

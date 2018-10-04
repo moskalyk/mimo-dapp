@@ -1,94 +1,89 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+// Components
 import Search from './search/Search.js';
 import Profile from './profile/Profile.js';
 import ProfileForm from './profile/ProfileForm.js';
+import SearchError from './errors/SearchError';
+
+// Actions Creators
+import { fetchWeb3 } from '../actions/web3Actions';
+import { updateProfile, cancelUpdateProfile, fetchProfile } from '../actions/profileActions'
+
 
 class ProfileContainer extends Component {
 
-  state = {
-    updating: false,
-    bio: null
-  }
 
   componentDidMount() {
-    
-    const id = this.props.match.params.ens;
-    console.log(id);
-
-    console.log(this.props.canUpdateProfile);
-    this.setState({bio: "my bio"});
-  }
-
-  async signMsg(from, msg) {
-    const result = await this.props.web3.eth.sign(from, msg);
-    console.log(result);
-    return result;
+    this.props.fetchWeb3(); // TODO: Create Global Container
+    this.props.fetchProfile(this.props.match.params.ens);
   }
 
   handleUpdateClick = () => {
-    console.log('Toggling Update');
     this.openBioForm();
   }
 
-  updateBio = (bio) => {
-    this.setState({bio: bio});
-  }
-
-  async onBioSubmit(payload) {
-    console.log(payload);
-    console.log(this.props.account)
-    // await this.signMsg(this.props.account, this.props.web3.utils.sha3("Updating Bio"));
-    this.updateBio(payload.bio)
-    this.closeBioForm();
-  }
-
-  onFormClose = () => {
-    this.closeBioForm();
-  }
-
   openBioForm = () => {
-    this.setState({ updating: true })
-  }
-
-  closeBioForm = () => {
-    this.setState({ updating: false })
+    this.props.updateProfile();
   }
 
   render() {
     return (
       <div> 
-      {
-        this.state.updating ? 
-        <ProfileForm
-          bio={this.state.bio} 
-          onBioSubmit={this.onBioSubmit}
-          onFormClose={this.onFormClose}
-          web3={this.props.web3}
-        >
-        </ProfileForm>
-        :
-        <div>
-          <Search 
-            onLoginVerified={this.props.onLoginVerified}
-            web3={this.state.web3}>
-          </Search> 
-          <Profile
-            ensDomain={this.props.ensDomain} 
-            canUpdateProfile={this.props.canUpdateProfile}
-            bio={this.state.bio} 
-            photo={this.state.photo} 
-            >
-          </Profile>
-        </div>
-      }
+        {
+          this.props.profileIsUpdating
+          ? 
+          <ProfileForm
+            bio={this.props.profileBio} 
+            onBioSubmit={this.onBioSubmit}
+            web3={this.props.web3}
+          >
+          </ProfileForm>
+          :
+          <div>
+            <Search />
+          {/*Loader*/}
+            {
+              this.props.profileIsLoading 
+              ? 
+              <div className="content has-text-centered is-expanded"> 
+                <div className="loader"></div> 
+              </div> 
+              : 
+                // If the Loader is finished
+                <div> 
+                {
+                  this.props.profileNotFound 
+                ? 
+                  <SearchError /> 
+                :
+                  <div>
+                    <Profile
+                      name={this.props.profileName} 
+                      bio={this.props.profileBio} 
+                      photo={this.props.profilePhoto} 
+                      >
+                    </Profile>
 
-      {/*If can Update*/}
-      {
-        this.props.canUpdateProfile === true && this.state.updating === false
-        && <button className="button is-primary" onClick={this.handleUpdateClick}>Update</button>
-      }
+                    <div className="content has-text-centered is-expanded">
+                    {
+                    this.props.profileCanBeUpdated === true && this.props.profileIsUpdating === false
+                    && <button className="button is-primary" onClick={this.handleUpdateClick}>Update</button>
+                    }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            {
+              
+            }
+          </div>
+        }
+
       </div>
     );
   }
@@ -100,5 +95,26 @@ ProfileContainer.propTypes = {
   ensDomain: PropTypes.string
 };
 
-export default ProfileContainer;
+const mapStateToProps = (state) => {
+  return {
+    profileIsUpdating: state.profileReducer.profileIsUpdating,
+    profileNotFound: state.profileReducer.profileNotFound,
+    profileIsLoading: state.profileReducer.profileIsLoading,
+    profileCanBeUpdated: state.profileReducer.profileCanBeUpdated,
+    profileName: state.profileReducer.profileName,
+    profileBio: state.profileReducer.profileBio,
+    profilePhoto: state.profileReducer.profileBio
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchProfile: (name) => dispatch(fetchProfile(name)),
+    cancelUpdateProfile: () => dispatch(cancelUpdateProfile()),
+    updateProfile: (bio) => dispatch(updateProfile(bio)),
+    fetchWeb3: () => dispatch(fetchWeb3())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
 

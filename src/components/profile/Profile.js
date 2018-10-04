@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import ProfileForm from './ProfileForm';
 
@@ -9,25 +10,9 @@ import ProfileForm from './ProfileForm';
 // const ipfs = new IPFS();
 
 class Profile extends Component {
-
-	state = {
-		mimo: null,
-		containsImage: false,
-		bio: null
-	}
-
 	componentDidMount() {
-		// Set up Mimo
-		// const mimo = new Mimo(this.props.web3, ipfs);
-		// this.setState({mimo: mimo})
-	}
 
-	getHistory = async () => {
-		console.log(this.props.multihash);
-		// Get all data published to a user's DB
-		// await this.state.mimo.getHistory(this.props.ensDomain).then(logs => console.log(logs));
 	}
-
 	render() {
 		return (
 			<div>
@@ -38,16 +23,10 @@ class Profile extends Component {
 			                <article className="media">
 			                  <div className="content has-text-centered is-expanded">
 
-								<h2><strong>{this.props.ensDomain}</strong></h2>
+								<h2><strong>{this.props.name}</strong></h2>
 
 								<figure className="image is-128x128">
-								  {/*Check for Image*/}
-								  { 
-								  	this.state.containsImage ? 
-								  	<img className="is-rounded" src={this.state.image}></img> 
-								  	: 
-								  	<img className="is-rounded" src={this.props.image}></img>
-								  }
+								  	<img className="is-rounded" src={this.props.image}></img> 
 								</figure>
 
 								<p>Bio: {this.props.bio}</p>
@@ -62,13 +41,15 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  endDomain: PropTypes.string,
+  bio: PropTypes.string,
+  name: PropTypes.string,
   image: PropTypes.string
 };
 
 //TODO: Remove after Mimo Connection
 Profile.defaultProps = {
-  image: "http://content.invisioncic.com/Mnhlcanucks/profile/photo-thumb-60611.jpg",
+	containsImage: true,
+	image: "http://content.invisioncic.com/Mnhlcanucks/profile/photo-thumb-60611.jpg",
 };
 
 export default Profile;
